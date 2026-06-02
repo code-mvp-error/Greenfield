@@ -1,0 +1,283 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// AUTHENTICATION
+// ============================================
+
+model User {
+  id            String   @id @default(cuid())
+  name          String
+  email         String   @unique
+  password      String
+  role          String   @default("staff") // admin, teacher, staff
+  avatar        String   @default("")
+  isActive      Boolean  @default(true)
+  lastLoginAt   DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+// ============================================
+// STUDENT MANAGEMENT
+// ============================================
+
+model Student {
+  id             String   @id @default(cuid())
+  firstName      String
+  lastName       String
+  dateOfBirth    String
+  gender         String   // Male, Female, Other
+  address        String   @default("")
+  phone          String   @default("")
+  email          String   @default("")
+  guardianName   String   @default("")
+  guardianPhone  String   @default("")
+  enrollmentDate String   @default("")
+  status         String   @default("Active") // Active, Transferred, Graduated, Dropped
+  profileImage   String   @default("")
+  classId        String?
+  class          Class?   @relation(fields: [classId], references: [id])
+  attendance     Attendance[]
+  grades         Grade[]
+  feePayments    FeePayment[]
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+// ============================================
+// TEACHER & STAFF MANAGEMENT
+// ============================================
+
+model Teacher {
+  id                 String   @id @default(cuid())
+  firstName          String
+  lastName           String
+  email              String   @unique
+  phone              String   @default("")
+  dateOfBirth        String   @default("")
+  gender             String   @default("")
+  address            String   @default("")
+  qualification      String   @default("")
+  specialization     String   @default("")
+  hireDate           String   @default("")
+  status             String   @default("Active") // Active, On Leave, Resigned
+  profileImage       String   @default("")
+  classTeacherClass  Class?   @relation("ClassTeacher")
+  subjectAssignments ClassSubject[]
+  staffAttendance    StaffAttendance[]
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model Staff {
+  id              String   @id @default(cuid())
+  firstName       String
+  lastName        String
+  email           String   @unique
+  phone           String   @default("")
+  role            String   @default("Staff") // Staff, Admin, Accountant, Librarian
+  department      String   @default("")
+  hireDate        String   @default("")
+  status          String   @default("Active") // Active, On Leave, Resigned
+  profileImage    String   @default("")
+  staffAttendance StaffAttendance[]
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+// ============================================
+// CLASS & COURSE MANAGEMENT
+// ============================================
+
+model Class {
+  id             String   @id @default(cuid())
+  name           String   // e.g., "Grade 1", "Class 10A"
+  grade          String   @default("") // e.g., "1", "2", "10"
+  section        String   @default("") // e.g., "A", "B"
+  academicYear   String   @default("2024-2025")
+  classTeacherId String?  @unique
+  classTeacher   Teacher? @relation("ClassTeacher", fields: [classTeacherId], references: [id])
+  students       Student[]
+  subjects       ClassSubject[]
+  attendance     Attendance[]
+  exams          Exam[]
+  feeStructures  FeeStructure[]
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Subject {
+  id          String   @id @default(cuid())
+  name        String
+  code        String   @unique
+  description String   @default("")
+  classes     ClassSubject[]
+  exams       Exam[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model ClassSubject {
+  id        String   @id @default(cuid())
+  classId   String
+  subjectId String
+  teacherId String?
+  class     Class    @relation(fields: [classId], references: [id])
+  subject   Subject  @relation(fields: [subjectId], references: [id])
+  teacher   Teacher? @relation(fields: [teacherId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([classId, subjectId])
+}
+
+// ============================================
+// ATTENDANCE TRACKING
+// ============================================
+
+model Attendance {
+  id        String   @id @default(cuid())
+  studentId String
+  classId   String
+  date      String   // YYYY-MM-DD format
+  status    String   // Present, Absent, Late
+  remarks   String   @default("")
+  student   Student  @relation(fields: [studentId], references: [id])
+  class     Class    @relation(fields: [classId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([studentId, classId, date])
+}
+
+model StaffAttendance {
+  id        String   @id @default(cuid())
+  teacherId String?
+  staffId   String?
+  date      String   // YYYY-MM-DD format
+  status    String   // Present, Absent, Late, On Leave
+  remarks   String   @default("")
+  teacher   Teacher? @relation(fields: [teacherId], references: [id])
+  staff     Staff?   @relation(fields: [staffId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ============================================
+// GRADING & EXAM MANAGEMENT
+// ============================================
+
+model Exam {
+  id          String   @id @default(cuid())
+  name        String   // e.g., "Mid-Term Exam", "Final Exam"
+  type        String   // e.g., "Mid-Term", "Final", "Quiz", "Unit Test"
+  classId     String
+  subjectId   String
+  date        String   @default("")
+  totalMarks  Float    @default(100)
+  description String   @default("")
+  class       Class    @relation(fields: [classId], references: [id])
+  subject     Subject  @relation(fields: [subjectId], references: [id])
+  grades      Grade[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Grade {
+  id            String   @id @default(cuid())
+  studentId     String
+  examId        String
+  marksObtained Float    @default(0)
+  grade         String   @default("") // A, B, C, D, F
+  remarks       String   @default("")
+  student       Student  @relation(fields: [studentId], references: [id])
+  exam          Exam     @relation(fields: [examId], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([studentId, examId])
+}
+
+// ============================================
+// FINANCIAL MANAGEMENT
+// ============================================
+
+model FeeStructure {
+  id           String   @id @default(cuid())
+  classId      String
+  feeType      String   // e.g., "Tuition", "Lab Fee", "Library Fee", "Transport"
+  amount       Float
+  academicYear String   @default("2024-2025")
+  description  String   @default("")
+  class        Class    @relation(fields: [classId], references: [id])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model FeePayment {
+  id            String   @id @default(cuid())
+  studentId     String
+  feeType       String   // e.g., "Tuition", "Lab Fee"
+  amount        Float
+  paymentDate   String   @default("")
+  paymentMethod String   @default("Cash") // Cash, Bank Transfer, Online, Check
+  status        String   @default("Paid") // Paid, Pending, Overdue, Partial
+  receiptNumber String   @default("")
+  academicYear  String   @default("2024-2025")
+  remarks       String   @default("")
+  student       Student  @relation(fields: [studentId], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+// ============================================
+// COMMUNICATION
+// ============================================
+
+model Announcement {
+  id             String   @id @default(cuid())
+  title          String
+  content        String
+  targetAudience String   @default("All") // All, Students, Teachers, Parents, Staff
+  priority       String   @default("Normal") // Normal, High, Urgent
+  authorName     String   @default("")
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Message {
+  id           String   @id @default(cuid())
+  senderName   String
+  senderRole   String   @default("") // Teacher, Parent, Staff, Admin
+  receiverName String
+  receiverRole String   @default("")
+  subject      String   @default("")
+  content      String
+  isRead       Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+// ============================================
+// ACADEMIC CALENDAR
+// ============================================
+
+model SchoolEvent {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  eventType   String   // "exam", "holiday", "meeting", "event", "deadline"
+  startDate   DateTime
+  endDate     DateTime?
+  color       String   @default("#059669")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
