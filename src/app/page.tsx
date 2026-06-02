@@ -122,6 +122,29 @@ export default function Home() {
     seed()
   }, [])
 
+  // Sync URL search params with active tab
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const tab = params.get('tab')
+    if (tab && tab !== activeTab) {
+      setActiveTab(tab)
+    }
+  }, [])
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    if (activeTab === 'dashboard') {
+      params.delete('tab')
+    } else {
+      params.set('tab', activeTab)
+    }
+    const qs = params.toString()
+    const newUrl = qs ? `?${qs}` : window.location.pathname
+    if (window.location.search !== (qs ? `?${qs}` : '')) {
+      window.history.replaceState(null, '', newUrl)
+    }
+  }, [activeTab])
+
   // Keyboard shortcut for search
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
