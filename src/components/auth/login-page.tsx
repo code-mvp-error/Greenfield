@@ -8,7 +8,8 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent } from '@/components/ui/card'
-import { School, Eye, EyeOff, Mail, Lock, AlertCircle, Loader2, ArrowRight, Sparkles, AlertTriangle, Globe } from 'lucide-react'
+import { Eye, EyeOff, Mail, Lock, AlertCircle, Loader2, ArrowRight, Sparkles, AlertTriangle, Globe } from 'lucide-react'
+import { LogoIcon } from '@/components/ui/logo-icon'
 
 export function LoginPage() {
   const router = useRouter()
@@ -67,7 +68,7 @@ export function LoginPage() {
         {/* Logo */}
         <div className="flex items-center gap-4">
           <div className="w-14 h-14 rounded-2xl bg-white/15 backdrop-blur-sm flex items-center justify-center ring-1 ring-white/20 shadow-2xl">
-            <School className="w-7 h-7 text-white" />
+            <LogoIcon className="w-7 h-7 text-white" />
           </div>
           <div>
             <h1 className="text-3xl font-bold text-white tracking-tight">{t('app.name')}</h1>
@@ -81,7 +82,7 @@ export function LoginPage() {
         {/* Mobile branding */}
         <div className="lg:hidden absolute top-6 left-6 flex items-center gap-2.5">
           <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-600 to-emerald-700 flex items-center justify-center shadow-lg shadow-emerald-600/20 ring-1 ring-emerald-500/20">
-            <School className="w-4.5 h-4.5 text-white" />
+            <LogoIcon className="w-4.5 h-4.5 text-white" />
           </div>
           <span className="font-bold text-lg gradient-text">{t('app.name')}</span>
         </div>

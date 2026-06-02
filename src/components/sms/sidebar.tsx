@@ -28,6 +28,7 @@ import {
   Globe,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { LogoIcon } from '@/components/ui/logo-icon'
 import {
   Tooltip,
   TooltipContent,
@@ -140,7 +141,7 @@ export function Sidebar() {
               'ring-1 ring-sidebar-primary/30',
               collapsed ? 'w-10 h-10' : 'w-10 h-10'
             )}>
-              <School className="w-5 h-5 text-sidebar-primary-foreground" />
+              <LogoIcon className="w-5 h-5 text-sidebar-primary-foreground" />
             </div>
             {!collapsed && (
               <div className="min-w-0 animate-[slideInLeft_0.3s_ease-out]">

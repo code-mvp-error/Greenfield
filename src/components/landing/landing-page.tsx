@@ -4,6 +4,7 @@ import { useRef } from 'react'
 import { useInView, motion } from 'framer-motion'
 import { useTranslation } from '@/lib/i18n'
 import { Button } from '@/components/ui/button'
+import { LogoIcon } from '@/components/ui/logo-icon'
 import { Card, CardContent } from '@/components/ui/card'
 import {
   School,
@@ -99,7 +100,7 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
           {/* Logo */}
           <div className="flex items-center gap-2.5">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-600 to-emerald-700 flex items-center justify-center shadow-lg shadow-emerald-600/20 ring-1 ring-emerald-500/20">
-              <School className="w-5 h-5 text-white" />
+              <LogoIcon className="w-5 h-5 text-white" />
             </div>
             <span className="font-bold text-lg text-foreground tracking-tight">Greenfield</span>
           </div>

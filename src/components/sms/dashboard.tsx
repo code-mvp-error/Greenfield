@@ -12,6 +12,7 @@ import {
   Activity, ChevronRight, Sparkles, Users
 } from 'lucide-react'
 import { Skeleton } from '@/components/ui/skeleton'
+import { LogoIcon } from '@/components/ui/logo-icon'
 import { useSMSStore } from '@/lib/store'
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
@@ -280,7 +281,7 @@ export function Dashboard() {
               </p>
             </div>
             <div className="hidden sm:flex items-center justify-center w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-white/15 dark:bg-white/10 backdrop-blur-sm">
-              <School className="w-8 h-8 md:w-10 md:h-10 text-white" />
+              <LogoIcon className="w-8 h-8 md:w-10 md:h-10 text-white" />
             </div>
           </div>
         </CardContent>
