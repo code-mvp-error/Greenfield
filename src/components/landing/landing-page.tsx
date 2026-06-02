@@ -463,69 +463,19 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
       </section>
 
       {/* ===== FOOTER ===== */}
-      <footer className="bg-muted/50 dark:bg-muted/20 border-t border-border/40 mt-auto">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
-            {/* Brand */}
-            <div className="col-span-2 md:col-span-1">
-              <div className="flex items-center gap-2.5 mb-4">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-600 to-emerald-700 flex items-center justify-center shadow-md shadow-emerald-600/20">
-                  <School className="w-4 h-4 text-white" />
-                </div>
-                <span className="font-bold text-foreground">Greenfield</span>
-              </div>
-              <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">
-                {t('landing.footer.description')}
-              </p>
-            </div>
-
-            {/* Platform */}
-            <div>
-              <h4 className="text-sm font-semibold text-foreground mb-3">{t('landing.footer.platform')}</h4>
-              <ul className="space-y-2">
-                <li><button onClick={() => scrollTo('features')} className="text-sm text-muted-foreground hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">{t('landing.footer.dashboard')}</button></li>
-                <li><button onClick={() => scrollTo('features')} className="text-sm text-muted-foreground hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">{t('landing.footer.students')}</button></li>
-                <li><button onClick={() => scrollTo('features')} className="text-sm text-muted-foreground hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">{t('landing.footer.finances')}</button></li>
-                <li><button onClick={() => scrollTo('features')} className="text-sm text-muted-foreground hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">{t('landing.footer.attendance')}</button></li>
-              </ul>
-            </div>
-
-            {/* Company */}
-            <div>
-              <h4 className="text-sm font-semibold text-foreground mb-3">{t('landing.footer.company')}</h4>
-              <ul className="space-y-2">
-                <li><span className="text-sm text-muted-foreground">{t('landing.footer.about')}</span></li>
-                <li><span className="text-sm text-muted-foreground">{t('landing.footer.careers')}</span></li>
-                <li><span className="text-sm text-muted-foreground">{t('landing.footer.contact')}</span></li>
-                <li><span className="text-sm text-muted-foreground">{t('landing.footer.blog')}</span></li>
-              </ul>
-            </div>
-
-            {/* Legal */}
-            <div>
-              <h4 className="text-sm font-semibold text-foreground mb-3">{t('landing.footer.legal')}</h4>
-              <ul className="space-y-2">
-                <li><span className="text-sm text-muted-foreground">{t('landing.footer.privacy')}</span></li>
-                <li><span className="text-sm text-muted-foreground">{t('landing.footer.terms')}</span></li>
-                <li><span className="text-sm text-muted-foreground">{t('landing.footer.cookies')}</span></li>
-              </ul>
-            </div>
-          </div>
-
-          {/* Bottom */}
-          <div className="pt-8 border-t border-border/40 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <p className="text-sm text-muted-foreground">
-              &copy; 2025 Greenfield Academy. {t('landing.footer.rights')}
-            </p>
-            <div className="flex items-center gap-4">
-              <button
-                onClick={() => setLocale(locale === 'en' ? 'fr' : 'en')}
-                className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <Globe className="w-3.5 h-3.5" />
-                {locale === 'en' ? 'Français' : 'English'}
-              </button>
-            </div>
+      <footer className="border-t border-border/40 mt-auto py-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+          <p className="text-sm text-muted-foreground">
+            &copy; 2025 Greenfield Academy. {t('landing.footer.rights')}
+          </p>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setLocale(locale === 'en' ? 'fr' : 'en')}
+              className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <Globe className="w-3.5 h-3.5" />
+              {locale === 'en' ? 'Français' : 'English'}
+            </button>
           </div>
         </div>
       </footer>

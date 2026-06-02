@@ -4,12 +4,11 @@ import { useState, useEffect } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useTranslation } from '@/lib/i18n'
-import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent } from '@/components/ui/card'
-import { School, Eye, EyeOff, Mail, Lock, GraduationCap, BookOpen, Users, AlertCircle, Loader2, ArrowRight, Shield, Sparkles, AlertTriangle, Globe } from 'lucide-react'
+import { School, Eye, EyeOff, Mail, Lock, AlertCircle, Loader2, ArrowRight, Sparkles, AlertTriangle, Globe } from 'lucide-react'
 
 export function LoginPage() {
   const router = useRouter()
@@ -61,88 +60,18 @@ export function LoginPage() {
     }
   }
 
-  const features = [
-    { icon: GraduationCap, labelKey: 'login.studentManagement', descKey: 'login.studentManagementDesc' },
-    { icon: BookOpen, labelKey: 'login.teacherManagement', descKey: 'login.teacherManagementDesc' },
-    { icon: Users, labelKey: 'login.attendanceTracking', descKey: 'login.attendanceTrackingDesc' },
-    { icon: Shield, labelKey: 'login.gradeExamSystem', descKey: 'login.gradeExamSystemDesc' },
-  ]
-
   return (
     <div className="min-h-screen flex bg-background">
-      {/* Left Side - Branding / Feature Showcase */}
-      <div className="hidden lg:flex lg:w-[55%] relative overflow-hidden bg-gradient-to-br from-emerald-600 via-emerald-700 to-emerald-900">
-        {/* Decorative elements */}
-        <div className="absolute inset-0">
-          <div className="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-emerald-500/20 blur-3xl" />
-          <div className="absolute top-1/3 right-0 w-80 h-80 rounded-full bg-teal-400/15 blur-3xl" />
-          <div className="absolute bottom-0 left-1/4 w-72 h-72 rounded-full bg-emerald-400/10 blur-3xl" />
-          {/* Grid pattern */}
-          <div className="absolute inset-0 opacity-[0.03]" style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-          }} />
-        </div>
-
-        {/* Content */}
-        <div className="relative z-10 flex flex-col justify-center px-16 xl:px-20">
-          {/* Logo */}
-          <div className="flex items-center gap-4 mb-12">
-            <div className="w-14 h-14 rounded-2xl bg-white/15 backdrop-blur-sm flex items-center justify-center ring-1 ring-white/20 shadow-2xl">
-              <School className="w-7 h-7 text-white" />
-            </div>
-            <div>
-              <h1 className="text-3xl font-bold text-white tracking-tight">{t('app.name')}</h1>
-              <p className="text-emerald-200/70 text-sm font-medium">{t('app.fullTagline')}</p>
-            </div>
+      {/* Left Side - Branding */}
+      <div className="hidden lg:flex lg:w-[55%] relative items-center justify-center bg-gradient-to-br from-emerald-600 via-emerald-700 to-emerald-900">
+        {/* Logo */}
+        <div className="flex items-center gap-4">
+          <div className="w-14 h-14 rounded-2xl bg-white/15 backdrop-blur-sm flex items-center justify-center ring-1 ring-white/20 shadow-2xl">
+            <School className="w-7 h-7 text-white" />
           </div>
-
-          {/* Hero Text */}
-          <div className="mb-12">
-            <h2 className="text-4xl xl:text-5xl font-bold text-white leading-tight mb-4">
-              {t('login.manageYourSchool')}
-              <br />
-              <span className="text-emerald-200">{t('login.withConfidence')}</span>
-            </h2>
-            <p className="text-emerald-100/60 text-lg max-w-md leading-relaxed">
-              {t('login.heroDescription')}
-            </p>
-          </div>
-
-          {/* Feature Cards */}
-          <div className="grid grid-cols-2 gap-3 max-w-lg">
-            {features.map((feature, i) => {
-              const Icon = feature.icon
-              return (
-                <div
-                  key={i}
-                  className="group bg-white/8 backdrop-blur-sm rounded-xl p-4 ring-1 ring-white/10 hover:bg-white/12 hover:ring-white/20 transition-all duration-300 hover:translate-y-[-2px]"
-                >
-                  <div className="w-9 h-9 rounded-lg bg-emerald-400/20 flex items-center justify-center mb-3 group-hover:bg-emerald-400/30 transition-colors">
-                    <Icon className="w-4.5 h-4.5 text-emerald-200" />
-                  </div>
-                  <p className="text-white font-semibold text-sm mb-0.5">{t(feature.labelKey)}</p>
-                  <p className="text-emerald-200/50 text-xs">{t(feature.descKey)}</p>
-                </div>
-              )
-            })}
-          </div>
-
-          {/* Bottom Stats */}
-          <div className="mt-12 flex items-center gap-8 text-emerald-200/50">
-            <div>
-              <p className="text-2xl font-bold text-white">500+</p>
-              <p className="text-xs">{t('login.studentsManaged')}</p>
-            </div>
-            <div className="w-px h-8 bg-emerald-400/20" />
-            <div>
-              <p className="text-2xl font-bold text-white">50+</p>
-              <p className="text-xs">{t('login.activeTeachers')}</p>
-            </div>
-            <div className="w-px h-8 bg-emerald-400/20" />
-            <div>
-              <p className="text-2xl font-bold text-white">99%</p>
-              <p className="text-xs">{t('login.uptime')}</p>
-            </div>
+          <div>
+            <h1 className="text-3xl font-bold text-white tracking-tight">{t('app.name')}</h1>
+            <p className="text-emerald-200/70 text-sm font-medium">{t('app.fullTagline')}</p>
           </div>
         </div>
       </div>
